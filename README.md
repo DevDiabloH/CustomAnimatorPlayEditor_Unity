@@ -12,6 +12,8 @@ How to use?
  4. Play
  ![](https://github.com/DevDiabloH/ImageSources/blob/master/CustomAnimatorPlayEditor/Play.gif)
 
- 5. If you want to set animation points, type EndPercents.
+How to set the end point of the animation.
+1. Enter a value for EndPercents between 0 < value < 1. 
+2. Or call the PlayAnimationByNormalizeTime function.
  ![](https://github.com/DevDiabloH/ImageSources/blob/master/CustomAnimatorPlayEditor/Hierarchy.png)
  ![](https://github.com/DevDiabloH/ImageSources/blob/master/CustomAnimatorPlayEditor/GUI.png)

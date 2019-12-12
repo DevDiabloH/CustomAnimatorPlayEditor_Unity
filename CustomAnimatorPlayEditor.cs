@@ -1,17 +1,20 @@
 ﻿using UnityEngine;
 
+[RequireComponent(typeof(Animator))]
 public class CustomAnimatorPlayEditor : MonoBehaviour
 {
     public float[] endPercents;
 
+    private const string DIRECTION_PARAM_NAME = "Direction";
     private const float DEFAULT_SPEED = 1f;
-    private Animator m_Animator;
     private float m_NormalizeStart;
     private float m_NormalizeEnd;
     private float m_CurrNormalizeTime;
     private float m_AnimationLength;
     private float m_EndPercent;
     private bool m_IsPlay = true;
+
+    private Animator m_Animator;
 
     private void Awake()
     {
@@ -57,7 +60,7 @@ public class CustomAnimatorPlayEditor : MonoBehaviour
     private void Initialize()
     {
         m_Animator = GetComponent<Animator>();
-        m_Animator.SetFloat("Direction", DEFAULT_SPEED);
+        m_Animator.SetFloat(DIRECTION_PARAM_NAME, DEFAULT_SPEED);
     }
 
     private void OnValidate()
@@ -87,13 +90,13 @@ public class CustomAnimatorPlayEditor : MonoBehaviour
         if(true == m_IsPlay)
         {
             m_IsPlay = false;
-            m_Animator.SetFloat("Direction", 0);
+            m_Animator.SetFloat(DIRECTION_PARAM_NAME, 0);
         }
     }
 
     private void SetSpeed(float _NewFloat)
     {
-        m_Animator.SetFloat("Direction", _NewFloat);
+        m_Animator.SetFloat(DIRECTION_PARAM_NAME, _NewFloat);
     }
 
     private void OnGUI()

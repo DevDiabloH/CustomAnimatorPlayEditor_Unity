@@ -7,12 +7,17 @@ public class CustomAnimatorPlayEditor : MonoBehaviour
 
     private const string DIRECTION_PARAM_NAME = "Direction";
     private const float DEFAULT_SPEED = 1f;
-    private float m_NormalizeStart;
-    private float m_NormalizeEnd;
+    private bool m_IsPlay = true;
+    private float m_Start;
+    private float m_End;
     private float m_CurrNormalizeTime;
     private float m_AnimationLength;
-    private float m_EndPercent;
-    private bool m_IsPlay = true;
+    private float m_Normalize;
+    private float m_NormalizeEnd
+    {
+        get { return m_Normalize; }
+        set { m_Normalize = Mathf.Clamp(value, 0f, 1f); }
+    }
 
     private Animator m_Animator;
 
@@ -41,16 +46,16 @@ public class CustomAnimatorPlayEditor : MonoBehaviour
             StopAnimation();
         }
 
-        if(m_NormalizeStart < m_NormalizeEnd)
+        if(m_Start < m_End)
         {
-            if(m_CurrNormalizeTime >= m_NormalizeEnd)
+            if(m_CurrNormalizeTime >= m_End)
             {
                 StopAnimation();
             }
         }
-        else if(m_NormalizeEnd < m_NormalizeStart)
+        else if(m_End < m_Start)
         {
-            if(m_CurrNormalizeTime <= m_NormalizeEnd)
+            if(m_CurrNormalizeTime <= m_End)
             {
                 StopAnimation();
             }
@@ -71,17 +76,17 @@ public class CustomAnimatorPlayEditor : MonoBehaviour
     private void PlayAnimation()
     {
         m_CurrNormalizeTime = Mathf.Clamp(m_Animator.GetCurrentAnimatorStateInfo(0).normalizedTime, 0f, m_AnimationLength);
-        m_NormalizeStart = Mathf.Clamp(m_CurrNormalizeTime, 0f, m_AnimationLength);
-        m_NormalizeEnd = m_EndPercent * m_AnimationLength;
+        m_Start = Mathf.Clamp(m_CurrNormalizeTime, 0f, m_AnimationLength);
+        m_End = m_NormalizeEnd * m_AnimationLength;
 
-        float _direction = (m_NormalizeStart < m_NormalizeEnd ? 1f : -1f);
+        float _direction = (m_Start < m_End ? 1f : -1f);
         SetSpeed(_direction);
         m_IsPlay = true;
     }
    
     public void PlayAnimationByNormalizeTime(float _NewNormalizeTime)
     {
-        m_EndPercent = _NewNormalizeTime;
+        m_NormalizeEnd = _NewNormalizeTime;
         PlayAnimation();
     }
 
@@ -109,7 +114,7 @@ public class CustomAnimatorPlayEditor : MonoBehaviour
 
         if (GUI.Button(new Rect(posX, posY, width, height), "0"))
         {
-            m_EndPercent = 0f;
+            m_NormalizeEnd = 0f;
             PlayAnimation();
         }
 
@@ -128,14 +133,14 @@ public class CustomAnimatorPlayEditor : MonoBehaviour
 
             if (GUI.Button(new Rect(posX + ((i+1) * _interval), posY, width, height), text))
             {
-                m_EndPercent = endPercents[i];
+                m_NormalizeEnd = endPercents[i];
                 PlayAnimation();
             }
         }
 
         if(GUI.Button(new Rect(posX + (_interval * (endPercents.Length + 1)), posY, width, height), "1"))
         {
-            m_EndPercent = 1f;
+            m_NormalizeEnd = 1f;
             PlayAnimation();
         }
     }

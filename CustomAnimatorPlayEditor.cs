@@ -65,7 +65,7 @@ public class CustomAnimatorPlayEditor : MonoBehaviour
     private void Initialize()
     {
         m_Animator = GetComponent<Animator>();
-        m_Animator.SetFloat(DIRECTION_PARAM_NAME, DEFAULT_SPEED);
+        SetSpeed(DEFAULT_SPEED);
     }
 
     private void OnValidate()
@@ -95,7 +95,7 @@ public class CustomAnimatorPlayEditor : MonoBehaviour
         if(true == m_IsPlay)
         {
             m_IsPlay = false;
-            m_Animator.SetFloat(DIRECTION_PARAM_NAME, 0);
+            SetSpeed(0f);
         }
     }
 
